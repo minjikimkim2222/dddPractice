@@ -39,15 +39,15 @@ public class User {
                 .build();
     }
 
-    public User editEmail(UserUpdateRequest request, String password){
-        if(!Objects.equals(this.password, password)){
+    public User editEmail(UserUpdateRequest request){
+        if(!Objects.equals(password, request.getPassword())){
             throw new IllegalStateException("패스워드 불일치");
         }
         return User.builder()
                 .userId(userId)
                 .loginId(loginId)
                 .password(password)
-                .age(age + 1)
+                .age(age)
                 .email(request.getEmail())
                 .build();
     }

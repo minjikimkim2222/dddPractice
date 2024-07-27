@@ -45,7 +45,7 @@ public class UserService {
         checkDuplicationEmail(userUpdateRequest.getEmail());
 
         User user = userRepository.getById(id);
-        user = user.editEmail(userUpdateRequest, user.getPassword());
+        user = user.editEmail(userUpdateRequest);
         userRepository.save(user);
     }
 
