@@ -22,6 +22,8 @@ public class User {
 
     private final String email;
 
+    private final UserStatus userStatus;
+
     private final long lastLoginAt;
 
     public User login(ClockHolder clockHolder){
@@ -35,6 +37,7 @@ public class User {
                 .password(password)
                 .age(age + 1)
                 .email(email)
+                .userStatus(UserStatus.PUBLIC)
                 .lastLoginAt(clockHolder.millis())
                 .build();
     }

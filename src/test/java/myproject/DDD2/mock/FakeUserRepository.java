@@ -2,6 +2,7 @@ package myproject.DDD2.mock;
 
 import myproject.DDD2.common.domain.exception.ResourceNotFoundException;
 import myproject.DDD2.user.model.User;
+import myproject.DDD2.user.model.UserStatus;
 import myproject.DDD2.user.service.port.UserRepository;
 
 import java.util.ArrayList;
@@ -47,6 +48,14 @@ public class FakeUserRepository implements UserRepository {
     @Override
     public List<User> findByAge(int age) {
         return data.stream().filter(item -> Objects.equals(item.getAge(), age)).toList();
+    }
+
+    @Override
+    public Optional<User> findByIdAndStatus(long id, UserStatus userStatus) {
+        return data.stream().filter(item ->
+                Objects.equals(item.getUserId(), id) &&
+                        Objects.equals(item.getUserStatus(), userStatus))
+                .findFirst();
     }
 
     @Override

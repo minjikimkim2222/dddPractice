@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import myproject.DDD2.common.domain.exception.ResourceNotFoundException;
 import myproject.DDD2.user.converter.UserConverter;
 import myproject.DDD2.user.model.User;
+import myproject.DDD2.user.model.UserStatus;
 import myproject.DDD2.user.service.port.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +50,13 @@ public class UserRepositoryImpl implements UserRepository {
                 .map(UserConverter::toUser)
                 .toList();
     }
+
+    @Override
+    public Optional<User> findByIdAndStatus(long id, UserStatus userStatus) {
+        return userJpaRepository.findByIdAndUserStatus(id, userStatus)
+                .map(UserConverter::toUser);
+    }
+
 
     @Override
     public void deleteById(long id){

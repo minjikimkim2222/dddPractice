@@ -7,6 +7,7 @@ import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 import myproject.DDD2.user.converter.UserConverter;
 import myproject.DDD2.user.model.User;
+import myproject.DDD2.user.model.UserStatus;
 import myproject.DDD2.user.service.port.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+/***
+ * 생성 -> PRIVATE
+ * 최초 로그인 1회 -> PUBLIC
+ * 이메일 수정 -> PUBLIC만 가능
+ */
 public class UserService {
 
     private final UserRepository userRepository;
@@ -44,7 +50,9 @@ public class UserService {
     public void editEmail(long id, UserUpdateRequest userUpdateRequest){
         checkDuplicationEmail(userUpdateRequest.getEmail());
 
-        User user = userRepository.getById(id);
+        User user = userRepository.findByIdAndStatus(id, UserStatus.PUBLIC)
+                .orElseThrow(() -> new ResourceNotFoundException("Users", id));
+
         user = user.editEmail(userUpdateRequest);
         userRepository.save(user);
     }
