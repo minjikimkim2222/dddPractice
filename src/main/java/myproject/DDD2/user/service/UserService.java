@@ -2,6 +2,7 @@ package myproject.DDD2.user.service;
 
 import lombok.RequiredArgsConstructor;
 import myproject.DDD2.common.domain.exception.ResourceNotFoundException;
+import myproject.DDD2.common.service.port.ClockHolder;
 import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 import myproject.DDD2.user.converter.UserConverter;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ClockHolder clockHolder;
 
     public User getById(long id){
         return getById(id);
@@ -34,7 +36,7 @@ public class UserService {
         User user = userRepository.findByLoginIdAndPassword(loginId, password).
                 orElseThrow(() -> new ResourceNotFoundException("Users", loginId));
 
-        user = user.login();
+        user = user.login(clockHolder);
         userRepository.save(user); // jpa Repository를 사용하지 않기떄문에 변경사항 저장 필수
     }
 

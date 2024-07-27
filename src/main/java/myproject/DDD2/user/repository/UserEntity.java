@@ -31,4 +31,5 @@ public class UserEntity {
     @Column(length = 100, nullable = false)
     private String email;
 
+    private Long lastLoginAt;
 }

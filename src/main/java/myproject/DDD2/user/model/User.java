@@ -1,6 +1,7 @@
 package myproject.DDD2.user.model;
 
 import lombok.*;
+import myproject.DDD2.common.service.port.ClockHolder;
 import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 
@@ -21,7 +22,9 @@ public class User {
 
     private final String email;
 
-    public User login(){
+    private final long lastLoginAt;
+
+    public User login(ClockHolder clockHolder){
         /***
          * 로그인시 발생하는 비지니스 로직수행
          * ex) 로그인시 age가 1증가하는 로직
@@ -32,6 +35,7 @@ public class User {
                 .password(password)
                 .age(age + 1)
                 .email(email)
+                .lastLoginAt(clockHolder.millis())
                 .build();
     }
 

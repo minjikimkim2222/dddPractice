@@ -1,13 +1,11 @@
 package myproject.DDD2.user.converter;
 
-import myproject.DDD2.common.annotation.Converter;
 import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserResponse;
 import myproject.DDD2.user.model.User;
 import myproject.DDD2.user.repository.UserEntity;
 
-import java.util.Objects;
-import java.util.Optional;
+
 
 public class UserConverter {
     public static User toUser(UserEntity userEntity){
