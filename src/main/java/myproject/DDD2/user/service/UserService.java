@@ -1,12 +1,18 @@
 package myproject.DDD2.user.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import myproject.DDD2.common.domain.exception.ResourceNotFoundException;
+import myproject.DDD2.common.service.port.ClockHolder;
 import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 import myproject.DDD2.user.converter.UserConverter;
 import myproject.DDD2.user.model.User;
+<<<<<<< HEAD
 import myproject.DDD2.user.repository.UserRepositoryImpl;
+=======
+import myproject.DDD2.user.model.UserStatus;
+>>>>>>> upstream/main
 import myproject.DDD2.user.service.port.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Builder
 @RequiredArgsConstructor
+/***
+ * 생성 -> PRIVATE
+ * 최초 로그인 1회 -> PUBLIC
+ * 이메일 수정 -> PUBLIC만 가능
+ */
 public class UserService {
 
     private final UserRepository userRepository /*= new UserRepositoryImpl(userJpaRepository) */;
+    private final ClockHolder clockHolder;
+
 
     public User getById(long id){
-        return getById(id);
+        return userRepository.getById(id);
     }
 
     @Transactional
@@ -35,7 +49,7 @@ public class UserService {
         User user = userRepository.findByLoginIdAndPassword(loginId, password).
                 orElseThrow(() -> new ResourceNotFoundException("Users", loginId));
 
-        user = user.login();
+        user = user.login(clockHolder);
         userRepository.save(user); // jpa Repository를 사용하지 않기떄문에 변경사항 저장 필수
     }
 
@@ -43,8 +57,10 @@ public class UserService {
     public void editEmail(long id, UserUpdateRequest userUpdateRequest){
         checkDuplicationEmail(userUpdateRequest.getEmail());
 
-        User user = userRepository.getById(id);
-        user = user.editEmail(userUpdateRequest, user.getPassword());
+        User user = userRepository.findByIdAndStatus(id, UserStatus.PUBLIC)
+                .orElseThrow(() -> new ResourceNotFoundException("Users", id));
+
+        user = user.editEmail(userUpdateRequest);
         userRepository.save(user);
     }
 

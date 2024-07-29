@@ -8,4 +8,5 @@ import lombok.Getter;
 public class UserUpdateRequest {
 
     private final String email;
+    private final String password;
 }
