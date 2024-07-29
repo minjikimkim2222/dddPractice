@@ -6,6 +6,7 @@ import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 import myproject.DDD2.user.converter.UserConverter;
 import myproject.DDD2.user.model.User;
+import myproject.DDD2.user.repository.UserRepositoryImpl;
 import myproject.DDD2.user.service.port.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepository /*= new UserRepositoryImpl(userJpaRepository) */;
 
     public User getById(long id){
         return getById(id);
