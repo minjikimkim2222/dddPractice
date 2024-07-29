@@ -24,6 +24,7 @@ public class FakeUserRepository implements UserRepository {
                     .email(user.getEmail())
                     .loginId(user.getLoginId())
                     .password(user.getPassword())
+                    .userStatus(user.getUserStatus())
                     .lastLoginAt(user.getLastLoginAt())
                     .build();
             data.add(newUser);

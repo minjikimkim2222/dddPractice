@@ -1,5 +1,6 @@
 package myproject.DDD2.user.service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import myproject.DDD2.common.domain.exception.ResourceNotFoundException;
 import myproject.DDD2.common.service.port.ClockHolder;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Builder
 @RequiredArgsConstructor
 /***
  * 생성 -> PRIVATE
@@ -27,7 +29,7 @@ public class UserService {
     private final ClockHolder clockHolder;
 
     public User getById(long id){
-        return getById(id);
+        return userRepository.getById(id);
     }
 
     @Transactional
