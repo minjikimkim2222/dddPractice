@@ -8,11 +8,8 @@ import myproject.DDD2.user.controller.model.UserCreateRequest;
 import myproject.DDD2.user.controller.model.UserUpdateRequest;
 import myproject.DDD2.user.converter.UserConverter;
 import myproject.DDD2.user.model.User;
-<<<<<<< HEAD
-import myproject.DDD2.user.repository.UserRepositoryImpl;
-=======
 import myproject.DDD2.user.model.UserStatus;
->>>>>>> upstream/main
+
 import myproject.DDD2.user.service.port.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
